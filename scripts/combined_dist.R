@@ -22,36 +22,22 @@ for (i in 1:2500) {
 }
 colnames(result) <- c("n", "err", "group")
 
-# Gussian Samples 
+# Non-Random Selection
 
-n <- 1500000
+counts <- seq(1,2500)
 
-y <- rbinom(n, 1, 0.1007)
-actual_percent = sum(y)/n
-
-for (i in 1:2500) {
-  sample_1 <- sample(y, i)
+for (i in counts) {
+  sample_1 <- y[1:i]
   sample_percent <- sum(sample_1)/i
   err <- abs(actual_percent - sample_percent)/actual_percent
-  gp=2
+  gp=4
   result <- rbind(result, c(i, err, gp))  
 }
 
-
 library(ggplot2)
-p <- qplot(n,err, data=result, geom="smooth", color=gp,  
+p <- qplot(n,err, data=result, geom="smooth", color=gp, ylim=c(0.00, 1.0) 
            main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
            ylab="Error", xlab="Sample Size")  
 
 p
-
-# Non-Random Selection
-
-for (i in 1:length(y)) {
-  sample_1 <- y[1:i]
-  sample_percent <- sum(sample_1)/i
-  err <- abs(actual_percent - sample_percent)/actual_percent
-  gp=3
-  result <- rbind(result, c(i, err, gp))  
-}
 
