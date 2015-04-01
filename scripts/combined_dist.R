@@ -35,7 +35,7 @@ for (i in counts) {
 }
 
 library(ggplot2)
-p <- qplot(n,err, data=result, geom="smooth", color=gp, ylim=c(0.00, 1.0) 
+p <- qplot(n,err, data=result, geom="smooth", color=gp, ylim=c(0.00, 1.0), 
            main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
            ylab="Error", xlab="Sample Size")  
 
