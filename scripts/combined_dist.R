@@ -1,7 +1,9 @@
 
 # non-gussuain 
 
-group_1 <- rbinom(500000, 1, 0.0001)
+set.seed(876)
+
+group_1 <- rbinom(500000, 1, 0.005)
 group_2 <- rbinom(100000, 1, 0.66)
 group_3 <- rep(0, 400000)
 group_4 <- rbinom(100000, 1, 0.85)
@@ -22,7 +24,14 @@ for (i in 1:2500) {
 }
 colnames(result) <- c("n", "err", "group")
 
+a <- result
+
 # Non-Random Selection
+
+
+result <- data.frame(iteration= numeric(), 
+                     err=numeric(),
+                     group=numeric())
 
 counts <- seq(1,2500)
 
@@ -33,11 +42,23 @@ for (i in counts) {
   gp=4
   result <- rbind(result, c(i, err, gp))  
 }
+colnames(result) <- c("n", "err", "group")
+b <- result
 
-library(ggplot2)
-p <- qplot(n,err, data=result, geom="smooth", color=gp, ylim=c(0.00, 1.0), 
-           main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
-           ylab="Error", xlab="Sample Size")  
 
-p
+# Simple Plot 
+
+plot(a$n, a$err, ylim=c(0,1), pch=19, col="blue", 
+     main="Relative Error based on Sample Size", 
+     xlab="Sample Size", ylab="Relative Error")
+points(b$n, b$err, col="red", pch=19)
+
+
+
+#library(ggplot2)
+#p <- qplot(n,err, data=result, geom="smooth", color=group, ylim=c(0.00, 1.0), 
+#           main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
+#           ylab="Error", xlab="Sample Size")  
+
+#p
 
