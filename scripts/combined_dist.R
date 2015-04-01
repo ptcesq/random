@@ -48,17 +48,20 @@ b <- result
 
 # Simple Plot 
 
-plot(a$n, a$err, ylim=c(0,1), pch=19, col="blue", 
-     main="Relative Error based on Sample Size", 
-     xlab="Sample Size", ylab="Relative Error")
-points(b$n, b$err, col="red", pch=19)
+#plot(a$n, a$err, ylim=c(0,1), pch=19, col="blue", 
+#     main="Relative Error based on Sample Size", 
+#     xlab="Sample Size", ylab="Relative Error")
+#points(b$n, b$err, col="red", pch=19)
 
 
 
-#library(ggplot2)
-#p <- qplot(n,err, data=result, geom="smooth", color=group, ylim=c(0.00, 1.0), 
-#           main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
-#           ylab="Error", xlab="Sample Size")  
+library(ggplot2)
+p <- qplot(n,err, data=b, geom="smooth", color="red", ylim=c(0.00, 1.0), 
+           main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
+           ylab="Error", xlab="Sample Size")  
 
-#p
+p <- p + geom_smooth(aes(n, err), data=a, color="blue")
+
+p
+
 
