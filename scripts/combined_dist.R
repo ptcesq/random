@@ -2,6 +2,8 @@
 # non-gussuain 
 
 set.seed(876)
+sample_count <- 25000
+
 
 group_1 <- rbinom(500000, 1, 0.005)
 group_2 <- rbinom(100000, 1, 0.66)
@@ -15,7 +17,7 @@ actual_percent = sum(y)/length(y)
 result <- data.frame(iteration= numeric(), 
                      err=numeric(),
                      group=numeric())
-for (i in 1:2500) {
+for (i in 1:sample_count) {
   sample_1 <- sample(y, i)
   sample_percent <- sum(sample_1)/i
   err <- abs(actual_percent - sample_percent)/actual_percent
@@ -24,44 +26,26 @@ for (i in 1:2500) {
 }
 colnames(result) <- c("n", "err", "group")
 
-a <- result
 
 # Non-Random Selection
 
 
-result <- data.frame(iteration= numeric(), 
-                     err=numeric(),
-                     group=numeric())
-
-counts <- seq(1,2500)
-
-for (i in counts) {
-  sample_1 <- y[1:i]
-  sample_percent <- sum(sample_1)/i
-  err <- abs(actual_percent - sample_percent)/actual_percent
-  gp=4
-  result <- rbind(result, c(i, err, gp))  
-}
-colnames(result) <- c("n", "err", "group")
-b <- result
-
+non_random <- read.csv("C:/Users/Patrick/OneDrive/R Programming/random/data/result.csv")
+non_random <- non_random[,-1]
+colnames(non_random) <- c("n", "err", "class")
+non_random_sub <- non_random[1:sample_count,]
+colnames(non_random_sub) <- c("n", "err", "group")
 
 # Simple Plot 
 
-#plot(a$n, a$err, ylim=c(0,1), pch=19, col="blue", 
-#     main="Relative Error based on Sample Size", 
-#     xlab="Sample Size", ylab="Relative Error")
-#points(b$n, b$err, col="red", pch=19)
-
-
-
 library(ggplot2)
-p <- qplot(n,err, data=b, geom="smooth", color="red", ylim=c(0.00, 1.0), 
+p <- qplot(n,err, data=result, geom="smooth", color=group, ylim=c(0.00, 1.0), 
            main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
            ylab="Error", xlab="Sample Size")  
 
-p <- p + geom_smooth(aes(n, err), data=a, color="blue")
+p <- p + geom_smooth(aes(n, err), data=non_random_sub, color="blue")
 
 p
+
 
 
