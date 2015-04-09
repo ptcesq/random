@@ -52,7 +52,7 @@ colnames(non_random) <- c("n", "err", "group")
 
 library(ggplot2)
 p <- qplot(n,err, data=result, geom="smooth", color=group, ylim=c(0.00, 1.0), 
-           main="Relative Error for Ramdom Sample with Non-Gausian Distribution", 
+           main="Relative Error for Ramdom Sample (Blue) and a Non-Random Sample (Red)", 
            ylab="Error", xlab="Sample Size")  
 
 p <- p + geom_smooth(aes(n, err), data=non_random, color="red")
